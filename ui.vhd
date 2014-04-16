@@ -19,11 +19,12 @@
 ----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.NUMERIC_STD.ALL;
+--use IEEE.STD_LOGIC_ARITH.ALL;
+--use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx primitives in this code.
@@ -43,12 +44,14 @@ entity ui is
            but_left : in STD_LOGIC;
            but_right : in STD_LOGIC;
            -- actual outputs
---           val0 : out unsigned (15 downto 0);
---           val1 : out unsigned (15 downto 0);
---           val2 : out unsigned (15 downto 0);
---           val3 : out unsigned (15 downto 0);
-			  -- dummy
-			  Audio : out STD_LOGIC
+           val0 : out unsigned (15 downto 0);
+           val1 : out unsigned (15 downto 0);
+           val2 : out unsigned (15 downto 0);
+           val3 : out unsigned (15 downto 0);
+           val4 : out unsigned (15 downto 0);
+           val5 : out unsigned (15 downto 0);
+           val6 : out unsigned (15 downto 0);
+           val7 : out unsigned (15 downto 0)
            );
 end ui;
 
@@ -110,7 +113,7 @@ architecture Behavioral of ui is
   signal but_left_down : STD_LOGIC;
   signal but_right_down : STD_LOGIC;
 
-  signal new_reg : STD_LOGIC;
+  signal new_reg : STD_LOGIC := '1';  -- make sure it lights a led on startup
   
   signal clk512hz : STD_LOGIC;
 
@@ -157,16 +160,14 @@ sevseg : sevenseg
     dp => dp
   );
 
---val0 <= my_val0;
---val1 <= my_val1;
---val2 <= my_val2;
---val3 <= my_val3;
---val4 <= my_val4;
---val5 <= my_val5;
---val6 <= my_val6;
---val7 <= my_val7;
-
-Audio <= '0';
+val0 <= my_val0;
+val1 <= my_val1;
+val2 <= my_val2;
+val3 <= my_val3;
+val4 <= my_val4;
+val5 <= my_val5;
+val6 <= my_val6;
+val7 <= my_val7;
 
 update_ui : process(clk512hz)
 begin

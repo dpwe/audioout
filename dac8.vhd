@@ -47,7 +47,8 @@ begin
   process(clk, sum)
   begin
 	 if rising_edge(clk) then
-	   sum <= ("0" & sum(7 downto 0)) + ("0" & data);
+	   -- flip top bit of data to switch to offset representation at the last moment
+	   sum <= ("0" & sum(7 downto 0)) + ("0" & not data(7) & data(6 downto 0));
 	 end if;
   end process;
 
