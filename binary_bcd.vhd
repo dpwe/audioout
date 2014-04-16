@@ -16,13 +16,12 @@ entity binary_bcd is
            thousands  : out std_logic_vector(3 downto 0);
            hundreds   : out std_logic_vector(3 downto 0);
            tens       : out std_logic_vector(3 downto 0);
-           ones       : out std_logic_vector(3 downto 0);
-           tenths     : out std_logic_vector(3 downto 0);
-           hundredths : out std_logic_vector(3 downto 0));
+           ones       : out std_logic_vector(3 downto 0)
+			);
 end binary_bcd;
 
 architecture Behavioral of binary_bcd is
-   signal busy : std_logic_vector(binary'high-1 downto 0);
+   signal busy : std_logic_vector(binary'high+1 downto 0);
    signal t3   : unsigned(3 downto 0);
    signal t2   : unsigned(3 downto 0);
    signal t1   : unsigned(3 downto 0);
@@ -126,12 +125,6 @@ process(clk)
                hundreds  <= std_logic_vector(t2);
                tens      <= std_logic_vector(t1);
                ones      <= std_logic_vector(t0);
-               case work(work'high downto work'high-1) is
-                  when "00"   => tenths <= "0000"; hundredths <= "0000";
-                  when "01"   => tenths <= "0010"; hundredths <= "0101";
-                  when "10"   => tenths <= "0101"; hundredths <= "0000";
-                  when others => tenths <= "0111"; hundredths <= "0101";
-               end case;
             end if;
          end if;
 

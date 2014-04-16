@@ -79,9 +79,7 @@ architecture Behavioral of audioout is
       thousands  : out std_logic_vector(3 downto 0);
       hundreds   : out std_logic_vector(3 downto 0);
       tens       : out std_logic_vector(3 downto 0);
-      ones       : out std_logic_vector(3 downto 0);
-      tenths     : out std_logic_vector(3 downto 0);
-      hundredths : out std_logic_vector(3 downto 0)
+      ones       : out std_logic_vector(3 downto 0)
       );
   END COMPONENT;
 
@@ -119,7 +117,7 @@ architecture Behavioral of audioout is
   signal clkvar : std_logic;
   signal clkvarmax : unsigned(29 downto 0) := (others => '0');
   signal clkvarcount : STD_LOGIC_VECTOR(29 downto 0);
-  signal clkvar_rst : std_logic;
+  signal clkvar_rst : std_logic := '0';
 
   signal debounce : STD_LOGIC_VECTOR(19 downto 0);
 
@@ -157,9 +155,7 @@ bcd : binary_bcd
     thousands  => sevsegval(15 downto 12), 
     hundreds   => sevsegval(11 downto 8),
     tens       => sevsegval(7 downto 4), 
-    ones       => sevsegval(3 downto 0), 
-    tenths     => open,
-    hundredths => open
+    ones       => sevsegval(3 downto 0)
   );
 
 inst_counter0: counter30_max
@@ -195,8 +191,8 @@ sevseg : sevenseg
 check_switches : process(clk512hz)
 begin
   if rising_edge(clk512hz) then
-	  -- binary <= "000" & switches & "00";
-	  binary <= std_logic_vector(clkvarmax(10 downto 0)) & "00";
+	  -- binary <= "00000" & switches;
+	  binary <= std_logic_vector(clkvarmax(12 downto 0));
 	  -- Button is 0 when pressed
 	  -- new_binary <= NOT button;
 	  new_binary <= '1';
