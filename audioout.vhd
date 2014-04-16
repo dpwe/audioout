@@ -92,8 +92,12 @@ architecture Behavioral of audioout is
   signal dac_data : STD_LOGIC_VECTOR(7 downto 0);
   signal val0 : unsigned (15 downto 0) := (others => '0');
   signal val1 : unsigned (15 downto 0) := (others => '0');
+  signal val2 : unsigned (15 downto 0) := (others => '0');
+  signal val3 : unsigned (15 downto 0) := (others => '0');
   signal sineval0 : STD_LOGIC_VECTOR(7 downto 0);
   signal sineval1 : STD_LOGIC_VECTOR(7 downto 0);
+  signal sineval2 : STD_LOGIC_VECTOR(7 downto 0);
+  signal sineval3 : STD_LOGIC_VECTOR(7 downto 0);
 
 begin
 
@@ -112,8 +116,8 @@ the_ui : ui
     but_right => but_right,
     val0 => val0,
     val1 => val1,
-    val2 => open,
-    val3 => open,
+    val2 => val2,
+    val3 => val3,
     val4 => open,
     val5 => open,
     val6 => open,
@@ -141,13 +145,30 @@ sine1 : sineosc
 	 audio => sineval1
   );
 
+sine2 : sineosc
+  PORT MAP (
+    clk => clk, 
+	 period => STD_LOGIC_VECTOR(val2), 
+	 audio => sineval2
+  );
+
+sine3 : sineosc
+  PORT MAP (
+    clk => clk, 
+	 period => STD_LOGIC_VECTOR(val3), 
+	 audio => sineval3
+  );
+
 --dac_data <= sineval0 +sineval1;
 --LEDs <= dac_data;
 
 --process(clk)
 --  begin
 --	 if rising_edge(clk) then
-      dac_data <= std_logic_vector(signed(sineval0(7) & sineval0(7 downto 1)) + signed(sineval1(7) & sineval1(7 downto 1)));
+      dac_data <= std_logic_vector(signed(sineval0(7) & sineval0(7) & sineval0(7 downto 2)) 
+											  + signed(sineval1(7) & sineval1(7) & sineval1(7 downto 2))
+											  + signed(sineval2(7) & sineval2(7) & sineval2(7 downto 2))
+											  + signed(sineval3(7) & sineval3(7) & sineval3(7 downto 2)));
       --dac_data <= std_logic_vector(signed(sineval0) + signed(sineval1));
 --    end if;
 --  end process;
